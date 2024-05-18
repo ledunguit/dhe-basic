@@ -52,6 +52,7 @@ build cmake_object_order_depends_target_dhe: phony || CMakeFiles/dhe.dir
 build CMakeFiles/dhe.dir/dhe.cpp.o: CXX_COMPILER__dhe_unscanned_Debug /Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/dhe.cpp || cmake_object_order_depends_target_dhe
   DEP_FILE = CMakeFiles/dhe.dir/dhe.cpp.o.d
   FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/include/cryptopp
   OBJECT_DIR = CMakeFiles/dhe.dir
   OBJECT_FILE_DIR = CMakeFiles/dhe.dir
 
@@ -65,6 +66,8 @@ build CMakeFiles/dhe.dir/dhe.cpp.o: CXX_COMPILER__dhe_unscanned_Debug /Users/zed
 
 build dhe: CXX_EXECUTABLE_LINKER__dhe_Debug CMakeFiles/dhe.dir/dhe.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk
+  LINK_LIBRARIES = -Wl,-rpath,/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/lib  -lcryptopp
+  LINK_PATH = -L/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/lib
   OBJECT_DIR = CMakeFiles/dhe.dir
   POST_BUILD = :
   PRE_LINK = :
