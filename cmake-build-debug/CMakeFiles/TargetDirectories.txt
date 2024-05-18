@@ -1,0 +1,3 @@
+/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/cmake-build-debug/CMakeFiles/dhe.dir
+/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/cmake-build-debug/CMakeFiles/rebuild_cache.dir
