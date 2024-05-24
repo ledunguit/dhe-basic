@@ -51,7 +51,7 @@ build cmake_object_order_depends_target_dhe: phony || CMakeFiles/dhe.dir
 
 build CMakeFiles/dhe.dir/dhe.cpp.o: CXX_COMPILER__dhe_unscanned_Release /Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/dhe.cpp || cmake_object_order_depends_target_dhe
   DEP_FILE = CMakeFiles/dhe.dir/dhe.cpp.o.d
-  FLAGS = -O3 -DNDEBUG -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -fcolor-diagnostics
+  FLAGS = -O3 -DNDEBUG -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=13.6 -fcolor-diagnostics
   INCLUDES = -I/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/include/cryptopp
   OBJECT_DIR = CMakeFiles/dhe.dir
   OBJECT_FILE_DIR = CMakeFiles/dhe.dir
@@ -65,7 +65,7 @@ build CMakeFiles/dhe.dir/dhe.cpp.o: CXX_COMPILER__dhe_unscanned_Release /Users/z
 # Link the executable dhe
 
 build dhe: CXX_EXECUTABLE_LINKER__dhe_Release CMakeFiles/dhe.dir/dhe.cpp.o
-  FLAGS = -O3 -DNDEBUG -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk
+  FLAGS = -O3 -DNDEBUG -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=13.6
   LINK_LIBRARIES = -Wl,-rpath,/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/lib  -lcryptopp
   LINK_PATH = -L/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/lib
   OBJECT_DIR = CMakeFiles/dhe.dir
@@ -73,6 +73,40 @@ build dhe: CXX_EXECUTABLE_LINKER__dhe_Release CMakeFiles/dhe.dir/dhe.cpp.o
   PRE_LINK = :
   TARGET_FILE = dhe
   TARGET_PDB = dhe.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target ecc
+
+
+#############################################
+# Order-only phony target for ecc
+
+build cmake_object_order_depends_target_ecc: phony || CMakeFiles/ecc.dir
+
+build CMakeFiles/ecc.dir/ecdhe.cpp.o: CXX_COMPILER__ecc_unscanned_Release /Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/ecdhe.cpp || cmake_object_order_depends_target_ecc
+  DEP_FILE = CMakeFiles/ecc.dir/ecdhe.cpp.o.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=13.6 -fcolor-diagnostics
+  INCLUDES = -I/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/include/cryptopp
+  OBJECT_DIR = CMakeFiles/ecc.dir
+  OBJECT_FILE_DIR = CMakeFiles/ecc.dir
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target ecc
+
+
+#############################################
+# Link the executable ecc
+
+build ecc: CXX_EXECUTABLE_LINKER__ecc_Release CMakeFiles/ecc.dir/ecdhe.cpp.o
+  FLAGS = -O3 -DNDEBUG -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.2.sdk -mmacosx-version-min=13.6
+  LINK_LIBRARIES = -Wl,-rpath,/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/lib  -lcryptopp
+  LINK_PATH = -L/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/lib
+  OBJECT_DIR = CMakeFiles/ecc.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = ecc
+  TARGET_PDB = ecc.dbg
 
 
 #############################################
@@ -108,7 +142,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/cmake-build-release
 
-build all: phony dhe
+build all: phony dhe ecc
 
 # =============================================================================
 # Built-in targets

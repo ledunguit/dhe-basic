@@ -7,4 +7,5 @@ include_directories("include/cryptopp")
 link_directories("lib")
 link_libraries("libcryptopp.a")
 
-add_executable(dhe dhe.cpp)
+add_executable(dhe dhe.cpp dhe.h)
+add_executable(ecc ecdhe.cpp ecdhe.h)

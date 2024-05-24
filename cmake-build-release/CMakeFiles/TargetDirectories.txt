@@ -1,3 +1,4 @@
 /Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/cmake-build-release/CMakeFiles/dhe.dir
+/Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/cmake-build-release/CMakeFiles/ecc.dir
 /Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/cmake-build-release/CMakeFiles/edit_cache.dir
 /Users/zed/Documents/MasterEDU/MatMaVaUngDung/dhe/dhe-basic/cmake-build-release/CMakeFiles/rebuild_cache.dir

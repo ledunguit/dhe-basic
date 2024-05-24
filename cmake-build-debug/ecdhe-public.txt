@@ -1,0 +1,4 @@
+-----BEGIN EC PUBLIC KEY-----
+BBfxqRrtpfaP10c/DaqebpqG1tk3M317OjlG8Bmtr5pSwAtFrZC9wBPyknwrd9fC
+GrlIi106NrWB8LfEMDgqGV8=
+-----END EC PUBLIC KEY-----

@@ -15,7 +15,8 @@
 					"source" : ".",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -30,7 +31,8 @@
 					"name" : "dhe",
 					"targetIndexes" : 
 					[
-						0
+						0,
+						1
 					]
 				}
 			],
@@ -39,8 +41,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "dhe::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-dhe-Debug-3e38bf84f74531e18772.json",
+					"jsonFile" : "target-dhe-Debug-b5fd642923bc4f33015c.json",
 					"name" : "dhe",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ecc::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ecc-Debug-d6599239957f9ac5584b.json",
+					"name" : "ecc",
 					"projectIndex" : 0
 				}
 			]

@@ -1,20 +1,24 @@
-#include "dhe.h"
+//
+// Created by Zed on 24/05/2024.
+//
+
+#include "ecdhe.h"
 
 void PrintHelp() {
     cout << "Usage: \n"
-         << "  generate <file>   Generate DHE parameters and save to file\n"
-         << "  load <file>       Load DHE parameters from file and generate keys\n"
+         << "  generate <file>   Generate ECDHE parameters and save to file\n"
+         << "  load <file>       Load ECDHE parameters from file and generate keys\n"
          << "  help              Show this help message\n";
 }
 
 void PrintHelpForGenerate() {
     cout << "Usage: \n"
-         << "  generate <file> <bitLength>   Generate DHE parameters and save to file\n";
+         << "  generate <file>   Generate ECDHE parameters and save to file\n";
 }
 
 void PrintHelpForLoad() {
     cout << "Usage: \n"
-         << "  load <file> <privateOutputFile> <publicOutputFile>   Load DHE parameters from file and generate keys\n";
+         << "  load <file> <privateOutputFile> <publicOutputFile>   Load ECDHE parameters from file and generate keys\n";
 }
 
 string EncodePrivateKey(const SecByteBlock &privateKey) {
@@ -22,15 +26,15 @@ string EncodePrivateKey(const SecByteBlock &privateKey) {
     Base64Encoder encoder(new StringSink(encoded), true, 64);
     encoder.Put(privateKey, privateKey.size());
     encoder.MessageEnd();
-    return "-----BEGIN PRIVATE KEY-----\n" + encoded + "-----END PRIVATE KEY-----";
+    return "-----BEGIN EC PRIVATE KEY-----\n" + encoded + "-----END EC PRIVATE KEY-----";
 }
 
-string EncodePublicKey(const SecByteBlock &publicKey) {
+string EncodePublicKey(const SecByteBlock &pubKey) {
     string encoded;
     Base64Encoder encoder(new StringSink(encoded), true, 64);
-    encoder.Put(publicKey, publicKey.size());
+    encoder.Put(pubKey, pubKey.size());
     encoder.MessageEnd();
-    return "-----BEGIN PUBLIC KEY-----\n" + encoded + "-----END PUBLIC KEY-----";
+    return "-----BEGIN EC PUBLIC KEY-----\n" + encoded + "-----END EC PUBLIC KEY-----";
 }
 
 void
@@ -48,37 +52,23 @@ WritePrivateKeyAndPublicKey(const char *privateKeyFileName, const char *publicKe
     publicFile.close();
 }
 
-void GenerateAndSaveParameters(const char *fileToSave, int bitLength) {
+void GenerateAndSaveParameters(const char *fileToSave) {
     AutoSeededRandomPool rng;
 
-    Integer p, q, g;
-    bool isValidPrime = false;
-
-    while (!isValidPrime) {
-        PrimeAndGenerator pg(1, rng, bitLength, bitLength - 1);
-        p = pg.Prime();
-        q = pg.SubPrime();
-        g = pg.Generator();
-
-        isValidPrime = RabinMillerTest(rng, p, 10) && RabinMillerTest(rng, q, 10) && RabinMillerTest(rng, g, 10);
-    }
+    OID curve = ASN1::secp256r1();
 
     ByteQueue queue;
-    DERSequenceEncoder derSeq(queue);
-    p.DEREncode(derSeq);
-    q.DEREncode(derSeq);
-    g.DEREncode(derSeq);
-    derSeq.MessageEnd();
+    curve.DEREncode(queue);
 
-    string encoded;
+    std::string encoded;
     Base64Encoder encoder(new StringSink(encoded), true, 64);
     queue.CopyTo(encoder);
     encoder.MessageEnd();
 
     ofstream file(fileToSave);
-    file << "-----BEGIN DH PARAMETERS-----\n";
+    file << "-----BEGIN EC PARAMETERS-----\n";
     file << encoded;
-    file << "-----END DH PARAMETERS-----\n";
+    file << "-----END EC PARAMETERS-----\n";
 
     file.close();
     cout << "Parameters saved to " << fileToSave << endl;
@@ -92,14 +82,14 @@ LoadParametersAndGenerateKeys(const char *paramsInputFileName, const char *priva
     ifstream file(paramsInputFileName);
     string pem((istreambuf_iterator<char>(file)), istreambuf_iterator<char>());
 
-    size_t begin = pem.find("-----BEGIN DH PARAMETERS-----");
-    size_t end = pem.find("-----END DH PARAMETERS-----");
+    size_t begin = pem.find("-----BEGIN EC PARAMETERS-----");
+    size_t end = pem.find("-----END EC PARAMETERS-----");
 
     if (begin == string::npos || end == string::npos) {
         throw runtime_error("Invalid PEM format");
     }
 
-    begin += 30;
+    begin += 27;
     end -= 1;
 
     string base64 = pem.substr(begin, end - begin);
@@ -107,27 +97,14 @@ LoadParametersAndGenerateKeys(const char *paramsInputFileName, const char *priva
     ByteQueue queue;
     StringSource stringSource(base64, true, new Base64Decoder(new Redirector(queue)));
 
-    Integer p, q, g;
-    BERSequenceDecoder seq(queue);
-    p.BERDecode(seq);
-    q.BERDecode(seq);
-    g.BERDecode(seq);
+    OID curve;
+    curve.BERDecode(queue);
 
-    seq.MessageEnd();
+    ECDH<ECP>::Domain dh(curve);
 
-    DH dh;
-    dh.AccessGroupParameters().Initialize(p, q, g);
-
-    size_t privateKeyLength = (q.BitCount() + 7) / 8;
-
-    Integer privateInt;
-    privateInt.Randomize(rng, Integer::One(), q - Integer::One());
-
-    SecByteBlock privateKey(privateKeyLength);
-    privateInt.Encode(privateKey.BytePtr(), privateKey.SizeInBytes());
-
+    SecByteBlock privateKey(dh.PrivateKeyLength());
     SecByteBlock publicKey(dh.PublicKeyLength());
-    dh.GeneratePublicKey(rng, privateKey, publicKey);
+    dh.GenerateKeyPair(rng, privateKey, publicKey);
 
     WritePrivateKeyAndPublicKey(privateKeyFileName, publicKeyFileName, privateKey, publicKey);
 }
@@ -141,15 +118,14 @@ int main(int argc, char *argv[]) {
     string mode = argv[1];
 
     if (mode == "generate") {
-        if (argc < 4) {
+        if (argc < 3) {
             PrintHelpForGenerate();
             return 0;
         }
 
         const char *filename = argv[2];
-        int bitLength = stoi(argv[3]);
 
-        GenerateAndSaveParameters(filename, bitLength);
+        GenerateAndSaveParameters(filename);
     } else if (mode == "load") {
         if (argc < 5) {
             PrintHelpForLoad();
